@@ -13,6 +13,8 @@
         "modules/motor",
         "modules/pid",
         "modules/remote_control",
+        "modules/board_comm",        
+        "modules/message_center",
 
       ],
       "defines": [

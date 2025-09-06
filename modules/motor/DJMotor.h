@@ -29,7 +29,6 @@ typedef struct
     pid_init_controller_t motor_controller;
     CAN_INSTANCE_t *motor_can_instance;
     motor_type_e motor_type;
-
     uint8_t sender_group;  // 发送报文
 }DJMotor_INSTANCE_t;
 

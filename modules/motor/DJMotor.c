@@ -57,7 +57,9 @@ void Decode_DJMotor(CAN_INSTANCE_t *instance) // 解码电机数据
 
 DJMotor_INSTANCE_t *DJMotorInit(motor_init_config *config)
 {
-    DJMotor_INSTANCE_t *instance;
+    DJMotor_INSTANCE_t *instance = (DJMotor_INSTANCE_t *)malloc(sizeof(DJMotor_INSTANCE_t));
+    memset(instance, 0, sizeof(DJMotor_INSTANCE_t));
+
     instance->motor_type = config->motor_type;
     instance->motor_setting.motor_reverse_flag = config->motor_setting_config.motor_reverse_flag;
 
@@ -67,8 +69,10 @@ DJMotor_INSTANCE_t *DJMotorInit(motor_init_config *config)
 
     instance->motor_controller.other_angle_feedback_ptr = config->pid_init_config.other_angle_feedback_ptr;
     instance->motor_controller.other_speed_feedback_ptr = config->pid_init_config.other_speed_feedback_ptr;
+    
     config->can_init_config.id = instance;
 
+    instance->motor_can_instance = Can_Register(&config->can_init_config);
     DLMotor_Enable(instance);
     djmotor_instance[idx++] = instance;
     return instance;
@@ -122,5 +126,4 @@ void DJMotor_control()
     {
         memset(send_to_can[0].tx_buff+2*message_num, 0, 16u);
     }
-    
 }

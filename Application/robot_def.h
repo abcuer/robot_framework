@@ -36,5 +36,22 @@ typedef struct
     float real_wz;
 }chassis_feedback_t;
 
+typedef enum 
+{
+    GIMBAL_NONE_FORCE = 0, // 无力模式：遥控器怎么运动都是让机器人停下来
+    GIMBAL_NORMAL,         // 正常模式
+}gimbal_mode_e; // 云台模式
+typedef struct
+{
+    gimbal_mode_e gimbal_mode;
+    float yaw;
+    float pitch;
+}gimbal_ctrl_t; 
+
+typedef struct
+{
+    uint16_t yaw_motor_single_round_angle;
+}gimbal_feedback_t;
+
 
 #endif // !ROBOT_DEF_H

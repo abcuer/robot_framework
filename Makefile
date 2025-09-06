@@ -56,8 +56,10 @@ Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.c \
 Core/Src/system_stm32f4xx.c \
 Core/Src/sysmem.c \
 Core/Src/syscalls.c \
-Application/chassis.c \
-Application/cmd.c \
+Application/chassis/chassis.c \
+Application/cmd/cmd.c \
+modules/motor/board_comm.c \
+modules/message_center/message_center.c \
 modules/motor/DJMotor.c \
 modules/motor/pid.c \
 modules/remote_control/remote_control.c \
@@ -129,7 +131,12 @@ C_INCLUDES =  \
 -IDrivers/STM32F4xx_HAL_Driver/Inc/Legacy \
 -IDrivers/CMSIS/Device/ST/STM32F4xx/Include \
 -IDrivers/CMSIS/Include \
--IApplication \
+-IApplication/chassis \
+-IApplication/cmd \
+-IApplication/gimbal \
+-IApplication/shoot \
+-Imodules/board_comm \
+-Imodules/message_center \
 -Imodules/motor \
 -Imodules/pid \
 -Imodules/remote_control \

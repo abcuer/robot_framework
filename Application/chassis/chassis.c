@@ -2,11 +2,13 @@
 #include "chassis.h"
 #include "math.h"
 #include "DJMotor.h"
+#include "board_comm.h"
 
 static chassis_ctrl_t chassis_cmd_recv;
 static chassis_feedback_t chassis_feedback_data;
 static DJMotor_INSTANCE_t *motor_lf, *motor_rf, *motor_lb, *motor_rb;
 static float v_lf, v_lb, v_rf, v_rb;
+static BOARD_CANcomm_INSTANCE_t *chassis_cmd;
 
 void chassis_init()
 {
@@ -46,6 +48,17 @@ void chassis_init()
     chassis_motor_config.can_init_config.tx_id = 0x204;
     chassis_motor_config.motor_setting_config.motor_reverse_flag = MOTOR_REVERSE;
     motor_rb = DJMotorInit(&chassis_motor_config);
+
+    BOARD_INIT_CANcomm_INSTANCE_t comm_conf=
+    {
+        .can_config = {
+            .tx_id = 0x209, 
+            .rx_id = 0x200,
+        },
+        .send_data_len = sizeof(chassis_feedback_t),
+        .recv_data_len = sizeof(chassis_ctrl_t),
+    };
+    chassis_cmd = board_comm_init(&comm_conf);
 }
 
 static void chassis_motor_state_set()
@@ -82,7 +95,7 @@ static void rotate_speed_set()
     }
 }
 
-static void malun_cal()
+static void malun_cal() // 麦轮数据计算
 {
     v_lf = chassis_cmd_recv.vx - chassis_cmd_recv.vy + chassis_cmd_recv.wz;
     v_lb = chassis_cmd_recv.vx + chassis_cmd_recv.vy + chassis_cmd_recv.wz;
@@ -97,4 +110,13 @@ static void malun_cal()
     chassis_feedback_data.real_vx = motor_lf->measure.speed_aps + motor_rf->measure.speed_aps + motor_lb->measure.speed_aps + motor_lb->measure.speed_aps;
     chassis_feedback_data.real_vy = -motor_lf->measure.speed_aps + motor_rf->measure.speed_aps + motor_lb->measure.speed_aps - motor_lb->measure.speed_aps;
     chassis_feedback_data.real_wz = motor_lf->measure.speed_aps - motor_rf->measure.speed_aps + motor_lb->measure.speed_aps - motor_lb->measure.speed_aps;
+}
+
+void Chassis_task()
+{
+    chassis_cmd_recv = *(chassis_ctrl_t *)Board_CAN_Get(chassis_cmd);
+    chassis_motor_state_set();
+    rotate_speed_set();
+    malun_cal();
+    BOARD_can_send(chassis_cmd, (void *)&chassis_feedback_data);
 }
