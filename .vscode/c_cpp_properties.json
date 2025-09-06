@@ -12,7 +12,7 @@
         "bsp",
         "modules/motor",
         "modules/pid",
-        "modules/remote_control"
+        "modules/remote_control",
 
       ],
       "defines": [

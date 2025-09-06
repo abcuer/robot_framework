@@ -59,7 +59,7 @@ DJMotor_INSTANCE_t *DJMotorInit(motor_init_config *config)
 {
     DJMotor_INSTANCE_t *instance;
     instance->motor_type = config->motor_type;
-    instance->motor_setting.motor_reverse_flag = config->motor_setting.motor_reverse_flag;
+    instance->motor_setting.motor_reverse_flag = config->motor_setting_config.motor_reverse_flag;
 
     PID_Init(&instance->motor_controller.speed_pid, &config->pid_init_config.speed_pid);
     PID_Init(&instance->motor_controller.angle_pid, &config->pid_init_config.angle_pid);

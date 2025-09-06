@@ -75,7 +75,7 @@ typedef struct
 typedef struct 
 {
     pid_init_controller_t pid_init_config;
-    motor_setting_t motor_setting;
+    motor_setting_t motor_setting_config;
     motor_type_e motor_type;
     CAN_INIT_INSTANCE_t can_init_config;
     /* data */
