@@ -44,8 +44,17 @@ typedef struct
     PID_init_config_t speed_pid;
     PID_init_config_t angle_pid;
     PID_init_config_t current_pid;
-
     float set;
+}pid_controller_t;
+
+typedef struct
+{
+    float *other_angle_feedback_ptr;
+    float *other_speed_feedback_ptr;
+    
+    PID_init_config_t speed_pid;
+    PID_init_config_t angle_pid;
+    PID_init_config_t current_pid;
 }pid_init_controller_t;
 
 typedef enum    // 反馈类型
@@ -78,8 +87,7 @@ typedef struct
     motor_setting_t motor_setting_config;
     motor_type_e motor_type;
     CAN_INIT_INSTANCE_t can_init_config;
-    /* data */
-}motor_init_config;
+}motor_init_instance_t;
 
 
 

@@ -7,12 +7,13 @@
 static chassis_ctrl_t chassis_cmd_recv;
 static chassis_feedback_t chassis_feedback_data;
 static DJMotor_INSTANCE_t *motor_lf, *motor_rf, *motor_lb, *motor_rb;
-static float v_lf, v_lb, v_rf, v_rb;
+static float v_lf, v_lb, v_rf, v_rb, cosa, sina;
+static float chassis_vx, chassis_vy;
 static BOARD_CANcomm_INSTANCE_t *chassis_cmd;
 
 void chassis_init()
 {
-    motor_init_config chassis_motor_config={
+    motor_init_instance_t chassis_motor_config={
         .pid_init_config ={
             .speed_pid={
                 .kp = 6,
@@ -87,7 +88,7 @@ static void rotate_speed_set()
             chassis_cmd_recv.wz = 1200;
             break;
         case CHASSIS_NORMAL:
-            chassis_cmd_recv.wz = 0;
+            chassis_cmd_recv.wz = -3*chassis_cmd_recv.offset_angle * chassis_cmd_recv.offset_angle;
             break;
         default:
             chassis_cmd_recv.wz = 0;
@@ -95,18 +96,26 @@ static void rotate_speed_set()
     }
 }
 
-static void malun_cal() // 麦轮数据计算
+static void malun_cal() // 麦轮数据计算  // 底盘随云台旋转的角度解算
 {
-    v_lf = chassis_cmd_recv.vx - chassis_cmd_recv.vy + chassis_cmd_recv.wz;
-    v_lb = chassis_cmd_recv.vx + chassis_cmd_recv.vy + chassis_cmd_recv.wz;
-    v_rf = chassis_cmd_recv.vx + chassis_cmd_recv.vy - chassis_cmd_recv.wz;
-    v_rb = chassis_cmd_recv.vx - chassis_cmd_recv.vy - chassis_cmd_recv.wz;
+    cosa = cos(chassis_cmd_recv.offset_angle);
+    sina = sin(chassis_cmd_recv.offset_angle);
+
+    chassis_vx = chassis_cmd_recv.vx*cosa + chassis_cmd_recv.vy*sina; 
+    chassis_vy = -chassis_cmd_recv.vx*sina + chassis_cmd_recv.vy*cosa;
+    v_lf = chassis_vx - chassis_vy + chassis_cmd_recv.wz;
+    v_lb = chassis_vx + chassis_vy + chassis_cmd_recv.wz;
+    v_rf = chassis_vx + chassis_vy - chassis_cmd_recv.wz;
+    v_rb = chassis_vx - chassis_vy - chassis_cmd_recv.wz;
 
     DJMotor_set(motor_lf, v_lf);
-    DJMotor_set(motor_rf, v_rf);
-    DJMotor_set(motor_lb, v_lb);
+    DJMotor_set(motor_rf, v_lb);
+    DJMotor_set(motor_lb, v_rf);
     DJMotor_set(motor_rb, v_rb);
+}
 
+static void feedback_to_odom()
+{
     chassis_feedback_data.real_vx = motor_lf->measure.speed_aps + motor_rf->measure.speed_aps + motor_lb->measure.speed_aps + motor_lb->measure.speed_aps;
     chassis_feedback_data.real_vy = -motor_lf->measure.speed_aps + motor_rf->measure.speed_aps + motor_lb->measure.speed_aps - motor_lb->measure.speed_aps;
     chassis_feedback_data.real_wz = motor_lf->measure.speed_aps - motor_rf->measure.speed_aps + motor_lb->measure.speed_aps - motor_lb->measure.speed_aps;

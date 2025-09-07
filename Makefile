@@ -58,6 +58,8 @@ Core/Src/sysmem.c \
 Core/Src/syscalls.c \
 Application/chassis/chassis.c \
 Application/cmd/cmd.c \
+Application/gimbal/gimbal.c \
+bsp/can.c \
 modules/motor/board_comm.c \
 modules/message_center/message_center.c \
 modules/motor/DJMotor.c \
@@ -131,6 +133,7 @@ C_INCLUDES =  \
 -IDrivers/STM32F4xx_HAL_Driver/Inc/Legacy \
 -IDrivers/CMSIS/Device/ST/STM32F4xx/Include \
 -IDrivers/CMSIS/Include \
+-IApplication \
 -IApplication/chassis \
 -IApplication/cmd \
 -IApplication/gimbal \

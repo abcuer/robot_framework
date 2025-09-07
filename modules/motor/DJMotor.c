@@ -55,7 +55,7 @@ void Decode_DJMotor(CAN_INSTANCE_t *instance) // 解码电机数据
     motor->measure.total_angle = motor->measure.total_round * 360.0f + motor->measure.angle_round;
 }
 
-DJMotor_INSTANCE_t *DJMotorInit(motor_init_config *config)
+DJMotor_INSTANCE_t *DJMotorInit(motor_init_instance_t *config)
 {
     DJMotor_INSTANCE_t *instance = (DJMotor_INSTANCE_t *)malloc(sizeof(DJMotor_INSTANCE_t));
     memset(instance, 0, sizeof(DJMotor_INSTANCE_t));

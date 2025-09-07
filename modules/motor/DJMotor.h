@@ -38,7 +38,7 @@ void DJMotor_outerloop(DJMotor_INSTANCE_t *motor, close_loop_type_e outer_loop);
 void DJMotor_Changefeed(DJMotor_INSTANCE_t *motor, feedback_source_e source, close_loop_type_e loop);
 void DJMotor_set(DJMotor_INSTANCE_t *motor, float set);
 void Decode_DJMotor(CAN_INSTANCE_t *instance);
-DJMotor_INSTANCE_t *DJMotorInit(motor_init_config *config);
+DJMotor_INSTANCE_t *DJMotorInit(motor_init_instance_t *config);
 void DJMotor_control();
 
 
