@@ -7,7 +7,7 @@
 #define ECD_TO_ANGLE (360/8192)
 #define SPEED_SMOOTH_COEF 0.05
 #define CURRENT_SMOOTH_COEF 0.05
-#define DJMotor_num 0
+#define DJMotor_num 12
 
 typedef struct 
 {

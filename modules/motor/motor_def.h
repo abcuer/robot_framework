@@ -90,7 +90,4 @@ typedef struct
 }motor_init_instance_t;
 
 
-
-
-
 #endif // !MOTOR_DEF_H

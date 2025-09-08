@@ -6,5 +6,11 @@
 云台：other_feed
 其他：motor_feed
 
-## bug
-#define DJMotor_num 0       /* DJMotor.h */
+## 串口通信
+UART1: 小电脑，串口协议自拟
+UART3: 遥控器，指定串口协议
+UART6: 裁判系统，指定串口协议
+
+## CAN通信
+### 比特率
+计算公式：CAN总线(APB1)42/(PSC)/(Time1 + Time2 + 1)
