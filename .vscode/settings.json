@@ -4,6 +4,13 @@
     "files.associations": {
         "stdlib.h": "c",
         "can.h": "c",
-        "stdint.h": "c"
+        "stdint.h": "c",
+        "bsp_can.h": "c",
+        "new": "c",
+        "typeinfo": "c",
+        "remote_control.h": "c",
+        "string.h": "c",
+        "pid.h": "c",
+        "stddef.h": "c"
     }
 }

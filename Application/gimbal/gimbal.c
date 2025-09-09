@@ -76,23 +76,18 @@ static void gimbal_mode_set()
     switch(gimbal_cmd_recv.gimbal_mode)
     {
         case GIMBAL_NONE_FORCE:
-            DJMotor_Stop(&yaw_motor);
-            DJMotor_Stop(&pitch_motor);
+            DJMotor_Stop(yaw_motor);
+            DJMotor_Stop(pitch_motor);
             break;
         case GIMBAL_NORMAL: 
-            DJMotor_Enable(&yaw_motor);
-            DJMotor_Enable(&pitch_motor);
-            DJMotor_set(&yaw_motor, gimbal_cmd_recv.yaw);
-            DJMotor_set(&pitch_motor, gimbal_cmd_recv.pitch);
+            DJMotor_Enable(yaw_motor);
+            DJMotor_Enable(pitch_motor);
+            DJMotor_set(yaw_motor, gimbal_cmd_recv.yaw);
+            DJMotor_set(pitch_motor, gimbal_cmd_recv.pitch);
             break;
         default:
             break;
     }
-}
-
-static void gimbal_mode_set()
-{
-
 }
 
 void gimbal_task()

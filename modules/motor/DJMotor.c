@@ -1,7 +1,10 @@
 #include "DJMotor.h"
-#include <stddef.h>
+#include "stddef.h"
+#include <stdlib.h>
+#include <string.h>
+#include "stdint.h"
 
-int idx = 0;
+static int idx = 0;
 static DJMotor_INSTANCE_t *djmotor_instance[DJMotor_num] = {0};
 static CAN_INSTANCE_t send_to_can[6] =
 {
@@ -73,7 +76,7 @@ DJMotor_INSTANCE_t *DJMotorInit(motor_init_instance_t *config)
     config->can_init_config.id = instance;
 
     instance->motor_can_instance = Can_Register(&config->can_init_config);
-    DLMotor_Enable(instance);
+    DJMotor_Enable(instance);
     djmotor_instance[idx++] = instance;
     return instance;
 }
@@ -82,8 +85,8 @@ void DJMotor_control()
 {
     DJMotor_INSTANCE_t *motor;
     motor_setting_t *motor_setting;
-    DJMOTOR_Measure_t *measure;
-    pid_init_controller_t *motor_pid;
+    DJMotor_Measure_t *measure;
+    pid_controller_t *motor_pid;
     float pid_set, pid_measure;
     int16_t message_num = motor->motor_can_instance->tx_id - 0x201;
     int16_t set;
@@ -106,7 +109,7 @@ void DJMotor_control()
                 pid_measure = measure->angle_round;
             pid_set = PID_Calculate(&motor_pid->angle_pid, pid_set, pid_measure);
         }  
-        if((motor_setting->close_loop_type&SPEED_LOOP)&&(motor_setting->outer_loop_type == ANGLE_LOOP | SPEED_LOOP))
+        if((motor_setting->close_loop_type&SPEED_LOOP)&&(motor_setting->outer_loop_type == (ANGLE_LOOP | SPEED_LOOP)))
         {
             if(motor_setting->angle_feedback_source == OTHER_FEED)
                 pid_measure = *motor_pid->other_speed_feedback_ptr;

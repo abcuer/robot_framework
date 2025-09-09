@@ -1,5 +1,7 @@
 #include "pid.h"
-
+#include "stddef.h"
+#include <stdlib.h>
+#include <string.h>
 static void pidout_limit(PID_instance_t *pid)
 {
     if(pid->output > pid->maxout)

@@ -1,7 +1,7 @@
 #ifndef MOTOR_DEF_H
 #define MOTOR_DEF_H
 #include "pid.h"
-#include "can.h"
+#include "bsp_can.h"
 
 typedef enum    // 电机正反转
 {
@@ -41,9 +41,10 @@ typedef struct
     float *other_angle_feedback_ptr;
     float *other_speed_feedback_ptr;
     
-    PID_init_config_t speed_pid;
-    PID_init_config_t angle_pid;
-    PID_init_config_t current_pid;
+    PID_instance_t speed_pid;
+    PID_instance_t angle_pid;
+    PID_instance_t current_pid;
+    
     float set;
 }pid_controller_t;
 

@@ -1,6 +1,8 @@
 #include "board_comm.h"
-#include "can.h"
-#include "stddef.h"
+#include "bsp_can.h"
+#include <stdlib.h>
+#include <string.h>
+#include <stddef.h>
 
 // 帧头+数据长度+数据帧+帧尾+校验位
 BOARD_CANcomm_INSTANCE_t *board_comm_init(BOARD_INIT_CANcomm_INSTANCE_t *config)

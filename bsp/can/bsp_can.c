@@ -1,8 +1,10 @@
-#include "can.h"
+#include "bsp_can.h"
 #include "stddef.h"
+#include <stdlib.h>
+#include <string.h>
 
 static CAN_INSTANCE_t *can_instance[CAN_MX_Register] = {NULL};
-int16_t idx = 0;
+static int idx = 0;
 
 CAN_INSTANCE_t *Can_Register(CAN_INIT_INSTANCE_t *config)
 {

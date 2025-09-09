@@ -1,6 +1,7 @@
 #ifndef ROBOT_DEF_H
 #define ROBOT_DEF_H
 
+#include "stdint.h"
 // 底盘参数(单位：mm)
 #define R_WHEEL 50.0f
 #define REDUCTION_RATIO_WHEEL 19.0f

@@ -53,7 +53,7 @@ void chassis_init()
     BOARD_INIT_CANcomm_INSTANCE_t comm_conf=
     {
         .can_config = {
-            .tx_id = 0x209, 
+            .tx_id = 0x209,
             .rx_id = 0x200,
         },
         .send_data_len = sizeof(chassis_feedback_t),

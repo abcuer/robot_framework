@@ -1,7 +1,7 @@
 #ifndef DJMOTOR_H
 #define DJMOTOR_H
 #include "motor_def.h"
-#include "can.h"
+#include "bsp_can.h"
 #include "stdint.h"
 
 #define ECD_TO_ANGLE (360/8192)
@@ -20,13 +20,13 @@ typedef struct
     float total_angle;
     float init_angle;
     int32_t total_round;
-}DJMOTOR_Measure_t;
+}DJMotor_Measure_t;
 
 typedef struct
 {
-    DJMOTOR_Measure_t measure;
+    DJMotor_Measure_t measure;
     motor_setting_t motor_setting;
-    pid_init_controller_t motor_controller;
+    pid_controller_t motor_controller;
     CAN_INSTANCE_t *motor_can_instance;
     motor_type_e motor_type;
     uint8_t sender_group;  // 发送报文

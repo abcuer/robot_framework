@@ -1,9 +1,8 @@
-#ifndef CAN_H
-#define CAN_H
+#ifndef BSP_CAN_H
+#define BSP_CAN_H
 #include "stdint.h"
 
 #define CAN_MX_Register 4
-#define NULL 0
 
 typedef struct 
 {
